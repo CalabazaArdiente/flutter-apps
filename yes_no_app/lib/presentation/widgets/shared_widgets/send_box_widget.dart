@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SendBoxWidget extends StatelessWidget {
-  const SendBoxWidget({Key? key}) : super(key: key);
+  const SendBoxWidget({Key? key, required this.onValue}) : super(key: key);
+
+  final ValueChanged<String> onValue;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class SendBoxWidget extends StatelessWidget {
           icon: const Icon(Icons.send_outlined),
           onPressed: () {
             final textValue = textController.value.text;
+            onValue(textValue);
           },
         ));
 
@@ -45,6 +48,7 @@ class SendBoxWidget extends StatelessWidget {
         onFieldSubmitted: (value) {
           textController.clear();
           focus.requestFocus();
+          onValue(value);
         },
       ),
     );

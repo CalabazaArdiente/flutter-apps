@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yes_no_app/config/tools/get_yes_no_answer.dart';
+import 'package:yes_no_app/domain/entities/message.dart';
+import 'package:yes_no_app/presentation/providers/provider.dart';
 import 'package:yes_no_app/presentation/widgets/widgets.dart';
 
 class ChatView extends StatelessWidget {
@@ -24,6 +28,8 @@ class ChatView extends StatelessWidget {
 class _Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -31,14 +37,22 @@ class _Chat extends StatelessWidget {
           children: [
             Expanded(
                 child: ListView.builder(
-              itemCount: 100,
+              controller: chatProvider.chatScrollController,
+              itemCount: chatProvider.messageList.length,
               itemBuilder: (context, index) {
-                return (index % 2 == 0
-                    ? MineMessageBubbleWidget()
-                    : TheirMessageBubbleWidget());
+                final message = chatProvider.messageList[index];
+                return (message.fromWho == FromWho.mine
+                    ? MineMessageBubbleWidget(
+                        message: message,
+                      )
+                    : TheirMessageBubbleWidget(
+                        message: message,
+                      ));
               },
             )),
-            SendBoxWidget()
+            SendBoxWidget(
+              onValue: (value) => chatProvider.sendMessage(value),
+            )
           ],
         ),
       ),

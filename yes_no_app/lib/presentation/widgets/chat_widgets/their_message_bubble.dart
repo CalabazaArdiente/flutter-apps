@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/domain/entities/message.dart';
 
 class TheirMessageBubbleWidget extends StatelessWidget {
-  const TheirMessageBubbleWidget({Key? key}) : super(key: key);
+  const TheirMessageBubbleWidget({Key? key, required this.message})
+      : super(key: key);
+
+  final Message message;
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +16,21 @@ class TheirMessageBubbleWidget extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
               color: colors.secondary, borderRadius: BorderRadius.circular(20)),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Text(
-              'Adipisicing ea consectetur esse id nisi.',
-              style: TextStyle(color: Colors.white),
+              message.text,
+              style: const TextStyle(color: Colors.white),
             ),
           ),
         ),
         const SizedBox(
           height: 5,
         ),
-        _Image(),
-        SizedBox(
+        _Image(
+            image: message.imageUrl ??
+                'https://yesno.wtf/assets/yes/15-3d723ea13af91839a671d4791fc53dcc.gif'),
+        const SizedBox(
           height: 10,
         )
       ],
@@ -33,23 +39,26 @@ class TheirMessageBubbleWidget extends StatelessWidget {
 }
 
 class _Image extends StatelessWidget {
+  final String image;
+
+  const _Image({super.key, required this.image});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.network(
-        'https://yesno.wtf/assets/yes/15-3d723ea13af91839a671d4791fc53dcc.gif',
+        image,
         width: size.width * 0.7,
         height: 150,
         fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             height: 150,
             width: size.width * 0.7,
-            child: Text('Esperando imagen. . .'),
+            child: const Text('Esperando imagen. . .'),
           );
         },
       ),
