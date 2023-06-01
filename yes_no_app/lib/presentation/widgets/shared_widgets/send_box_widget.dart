@@ -38,7 +38,7 @@ class SendBoxWidget extends StatelessWidget {
     return SizedBox(
       height: 45,
       child: TextFormField(
-        cursorHeight: 20,
+        //cursorHeight: 20,
         controller: textController,
         focusNode: focus,
         decoration: decoration,

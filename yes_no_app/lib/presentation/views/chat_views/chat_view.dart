@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yes_no_app/config/tools/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entities/message.dart';
 import 'package:yes_no_app/presentation/providers/provider.dart';
 import 'package:yes_no_app/presentation/widgets/widgets.dart';
@@ -12,7 +11,7 @@ class ChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Rafa'),
+        title: const Text('Señor misterio'),
         centerTitle: false,
         leading: const CircleAvatar(
           backgroundImage: NetworkImage(
